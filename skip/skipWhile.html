@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@reactivex/rxjs/dist/global/rxjs.umd.js"></script>
+    <script>
+        const { fromEvent } = rxjs
+        const { map, skipWhile } = rxjs.operators
+
+        fromEvent(document, 'click').pipe(
+            map(x => x),
+            skipWhile(x => x < 200),
+        ).subscribe({
+            next: console.log,
+            error: err => console.error(err),
+            complete: () => console.log('COMPLETE')
+        })
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
