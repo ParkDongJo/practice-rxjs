@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/@reactivex/rxjs/dist/global/rxjs.umd.js"></script>
+  
+  <script>
+    const { from, interval, fromEvent, zip } = rxjs
+    const { pluck } = rxjs.operators
+
+    zip(obs1$, obs2$).subscribe(console.log)
+
+    const obs4$ = interval(1000)
+    const obs5$ = fromEvent(document, 'click').pipe(pluck('y'))
+
+    zip(obs4$, obs5$).subscribe(console.log)
+  </script>
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>

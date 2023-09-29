@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@reactivex/rxjs/dist/global/rxjs.umd.js"></script>
+    <script>
+        const { fromEvent, timer } = rxjs
+        const { map, skipWhile } = rxjs.operators
+
+        const obs1$ = interval(1000)
+        const obs2$ = fromEvent(document, 'click')
+
+        obs1$.pipe(
+            skipUntil(obs2$)
+        ).subscribe({
+            next: console.log,
+            error: err => console.error(err),
+            complete: () => console.log('COMPLETE')
+        })
+
+        // const obs1$ = fromEvent(document, 'click')
+        // const obs2$ = timer(5000)
+
+        // obs1$.pipe(
+        //     map(x => x.x),
+        //     skipUntil(obs2$)
+        // ).subscribe({
+        //     next: console.log,
+        //     error: err => console.error(err),
+        //     complete: () => console.log('COMPLETE')
+        // })
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
