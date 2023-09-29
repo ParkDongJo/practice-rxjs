@@ -7,15 +7,15 @@
     <script src="https://unpkg.com/@reactivex/rxjs/dist/global/rxjs.umd.js"></script>
     <script>
         const { fromEvent } = rxjs
-        const { takeWhile, map } = rxjs.operators
+        const { delay, tap } = rxjs.operators
 
         fromEvent(document, 'click').pipe(
-            map(x => x),
-            takeWhile(x => x < 200),
+            tap(e => console.log(e.x + ' 발행시작')),
+            delay(1500)
         ).subscribe({
             next: console.log,
             error: err => console.error(err),
-            complete: () => console.log('COMPLETE')
+            complete: () => console.log('발행완료')
         })
     </script>
 </head>

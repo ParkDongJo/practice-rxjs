@@ -7,16 +7,16 @@
     <script src="https://unpkg.com/@reactivex/rxjs/dist/global/rxjs.umd.js"></script>
     <script>
         const { fromEvent } = rxjs
-        const { map, skip } = rxjs.operators
+        const { delay, map } = rxjs.operators
 
         fromEvent(document, 'click').pipe(
-            skip(5),
-            map(x => x)
-        ).subscribe(
-            console.log,
-            err => console.error(err),
-            _ => console.log('COMPLETE')
-        )
+            map(x => x.x),
+            timestamp()
+        ).subscribe({
+            next: console.log,
+            error: err => console.error(err),
+            complete: () => console.log('발행완료')
+        })
     </script>
 </head>
 <body>

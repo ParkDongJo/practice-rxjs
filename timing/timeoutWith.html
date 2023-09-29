@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@reactivex/rxjs/dist/global/rxjs.umd.js"></script>
+    <script>
+        const { fromEvent, interval, of } = rxjs
+        const { ajax } = rxjs.ajax
+        const { delay, timeout, timeoutWith, pluck, scan, map } = rxjs.operators
+
+        // 일정 시간이 지나면 에러를 발생시키는 연산자
+        ajax('http://127.0.0.1:3000/people/name/random').pipe(
+            mapt(x => x.response),
+            timeout(500)
+        ).subscribe({
+            next: console.log,
+            error: err => console.error(err),
+        })
+
+        // 일정 시간이 wlskaus, 다음 Observable을 실행하는 연산자
+        fromEvent(document, 'click').pipe(
+            timeoutWith(3000, interval(1000)),
+            scan((acc, x) => { return acc + 1 }, 0)
+        ).subscribe({
+            next: console.log,
+            error: err => console.error(err),
+            complete: () => console.log('COMPLETE')
+        })
+
+
+        ajax('http://127.0.0.1:3000/people/name/random').pipe(
+            mapt(x => x.response),
+            timeoutWith(500, of({
+                id: 0,
+                first_name: 'Hong',
+                last_name: 'Gildong',
+                role: 'substitute'
+            }))
+        ).subscribe({
+            next: console.log,
+            error: err => console.error(err),
+        })
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

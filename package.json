@@ -1,5 +1,6 @@
 {
   "name": "practice-rxjs",
+  "type": "module",
   "packageManager": "yarn@3.6.3",
   "description": "",
   "version": "1.0.0",
