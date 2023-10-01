@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@reactivex/rxjs/dist/global/rxjs.umd.js"></script>
+    <script>
+        const { fromEvent, interval } = rxjs
+        const { timeInterval, map, scan, tap, throttle } = rxjs.operators
+
+        const clicks$ = fromEvent(document, 'click').pipe(
+            timeInterval(),
+            map(x => x.interval),
+            scan((acc, i) => acc + i, 0),
+            tap(x => console.log('CLICKED: ' + x))
+        )
+
+        // A 이벤트
+        clicks$.subscribe()
+
+        fromEvent(document, 'click').pipe(
+          throttle(e => interval(1000)),
+          timeInterval(),
+          map(x => x.interval)
+        ).subscribe(console.log);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

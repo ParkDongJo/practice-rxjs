@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@reactivex/rxjs/dist/global/rxjs.umd.js"></script>
+    <script>
+        const { BehaviorSubject, fromEvent, interval } = rxjs
+        const { map, scan, tap, debounce } = rxjs.operators
+
+        // A 이벤트 발행 시
+        // debounceTime(1000) 과 다른 점은 debounce 이후에 다른 스트림을 커스텀 할 수 있다.
+        // 즉 debounceTime은 인자가 시간인데 반해,
+        // debounce은 인자가 스트림이다.
+        fromEvent(document, 'click').pipe(
+          map(y => y.interval),
+          debounce(y => interval(y * 10))
+        ).subscribe(console.log);
+
+        // 1000으로 초기화된 상태값을 설정한다.
+        // 지금부터 bs는 스트림과 함께 쓰이는 상태값이 된다.
+        const bs = new BehaviorSubject(1000)
+
+        // 아래와 같이 상태값을 활용하여, 스트림을 커스텀 할 수 있다.
+        // bs.next() 를 통해서 상태값을 변경할 수 있다.
+        fromEvent(document, 'click').pipe(
+            tap(_ => console.log(bs.getValue())),
+            debounce(e => interval(bs.getValue())),
+            tap(_ => bs.next(bs.getValue() + 500))
+        ).subscribe(_ => console.log('CLICK'));
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
